@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "https://bandhammatrimony.com")
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
