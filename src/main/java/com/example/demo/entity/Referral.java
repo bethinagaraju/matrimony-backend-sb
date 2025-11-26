@@ -20,10 +20,10 @@ public class Referral {
     private RegistrationForm toProfile;
 
     @Column(nullable = false)
-    private String fromProfileStatus; // "Accepted", "Rejected", "Pending"
+    private String fromProfileStatus; 
 
     @Column(nullable = false)
-    private String toProfileStatus; // "Accepted", "Rejected", "Pending"
+    private String toProfileStatus; 
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

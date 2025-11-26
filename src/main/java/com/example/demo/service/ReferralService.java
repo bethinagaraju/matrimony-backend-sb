@@ -117,4 +117,18 @@ public class ReferralService {
         referralRepository.deleteById(id);
         return true;
     }
+
+
+    // Add this inside ReferralService.java
+
+// public Referral getReferralById(Long id) {
+//     return referralRepository.findById(id)
+//             .orElseThrow(() -> new IllegalArgumentException("Referral not found with ID: " + id));
+// }
+
+public Referral getReferralById(Long id) {
+        return referralRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Referral not found with ID: " + id));
+    }
+
 }

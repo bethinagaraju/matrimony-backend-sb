@@ -5,8 +5,12 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.CascadeType;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "registration_form")
@@ -71,6 +75,9 @@ public class RegistrationForm {
     private String sibling3;
     private String sibling2info;
     private String sibling3info;
+
+    @OneToMany(mappedBy = "registrationForm", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RegistrationFormNotes> notes = new ArrayList<>();
 
     // Default constructor
     public RegistrationForm() {}
@@ -480,6 +487,14 @@ public class RegistrationForm {
     
     public void setSalary(String salary) {
         this.salary = salary;
+    }
+
+    public List<RegistrationFormNotes> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<RegistrationFormNotes> notes) {
+        this.notes = notes;
     }
 }
     

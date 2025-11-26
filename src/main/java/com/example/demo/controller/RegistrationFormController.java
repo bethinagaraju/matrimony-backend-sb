@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 // @CrossOrigin(origins = "https://bandhammatrimony.com")
@@ -24,7 +25,7 @@ public class RegistrationFormController {
     public ResponseEntity<?> register(@ModelAttribute RegistrationRequest request) {
         try {
             RegistrationForm savedForm = registrationFormService.saveRegistration(request);
-            return ResponseEntity.ok("Registration successful! ID: " + savedForm.getId());
+            return ResponseEntity.ok(""+savedForm.getId());
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body("Validation Error: " + e.getMessage());
         } catch (Exception e) {
@@ -163,6 +164,23 @@ public ResponseEntity<?> updateRegistrationForm(@PathVariable Long id, @ModelAtt
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error: " + e.getMessage());
+        }
+    }
+
+    @PutMapping("/forms/{id}/image3")
+    public ResponseEntity<?> updateImage3(@PathVariable Long id, @RequestParam("image3") MultipartFile image3) {
+        try {
+            RegistrationForm updatedForm = registrationFormService.updateImage3(id, image3);
+            if (updatedForm != null) {
+                return ResponseEntity.ok("Image3 uploaded successfully! ID: " + updatedForm.getId());
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Validation Error: " + e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error: " + e.getMessage());
         }
     }
 }

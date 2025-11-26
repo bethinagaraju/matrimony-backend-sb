@@ -3,6 +3,8 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "referral_notes")
 public class ReferralNotes {
@@ -12,6 +14,7 @@ public class ReferralNotes {
     private Long id;
 
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "referral_id", nullable = false)
     private Referral referral;
 

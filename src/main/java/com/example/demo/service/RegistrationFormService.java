@@ -6,6 +6,7 @@ import com.example.demo.entity.RegistrationFormNotes;
 import com.example.demo.repository.RegistrationFormNotesRepository;
 import com.example.demo.repository.RegistrationFormRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -588,6 +589,9 @@ public RegistrationForm updateRegistration(Long id, RegistrationRequest request)
         note.setRegistrationForm(form);
         note.setNoteText(noteText);
         note.setCreatedBy(createdBy);
+        // maintain both sides of the relationship
+        form.getNotes().add(note);
+        // saving the note is sufficient because it is the owning side, but saving the form would also persist it via cascade
         return registrationFormNotesRepository.save(note);
     }
 
@@ -601,5 +605,22 @@ public RegistrationForm updateRegistration(Long id, RegistrationRequest request)
         }
         registrationFormNotesRepository.deleteById(noteId);
         return true;
+    }
+
+    public RegistrationForm updateImage3(Long id, MultipartFile image3) throws Exception {
+        if (image3 == null || image3.isEmpty()) {
+            throw new IllegalArgumentException("image3 file is required");
+        }
+
+        RegistrationForm form = registrationFormRepository.findById(id).orElse(null);
+        if (form == null) {
+            return null;
+        }
+
+        // Upload file via existing SFTP service and set image3 path
+        String uploadedUrl = sftpFileUploadService.uploadFile(image3);
+        form.setImage3Path(uploadedUrl);
+
+        return registrationFormRepository.save(form);
     }
 }
